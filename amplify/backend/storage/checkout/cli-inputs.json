@@ -1,0 +1,16 @@
+{
+  "resourceName": "checkout",
+  "policyUUID": "c1ea5e74",
+  "bucketName": "chye451d85a550d4c0dab7fba921264147f",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
