@@ -1,0 +1,39 @@
+.sell-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .sell-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .sell-column {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .sell-input {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .sell-button {
+    width: 150px;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .sell-button:hover {
+    background-color: #45a049;
+  }
+  

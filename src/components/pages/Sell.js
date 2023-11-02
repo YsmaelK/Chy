@@ -1,6 +1,75 @@
-import React from 'react'
-import '../../App.css'
+import React, { useState } from 'react';
+import db from '../../Firebase';
+import './Sell.css';
 
-export default function Sell() {
-    return <h1 className = 'sell'>Sell</h1>;
-}
+const Sell = () => {
+  const [productName, setProductName] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [photoUrl, setPhotoUrl] = useState('');
+
+  const handleAddProduct = async (event) => {
+    event.preventDefault();
+
+    try {
+      await db.collection('product').add({
+        name: productName,
+        price: price,
+        description: description,
+        photoUrl: photoUrl,
+      });
+      console.log('Product added successfully!');
+      setProductName('');
+      setPrice('');
+      setDescription('');
+      setPhotoUrl('');
+    } catch (error) {
+      console.error('Error adding product to Firestore: ', error);
+    }
+  };
+
+  return (
+    <div className="sell-container">
+      <h1>Add a Product</h1>
+      <form className="sell-form" onSubmit={handleAddProduct}>
+        <div className="sell-column">
+          <input
+            className="sell-input"
+            type="text"
+            placeholder="Product Name"
+            value={productName}
+            onChange={(e) => setProductName(e.target.value)}
+          />
+          <input
+            className="sell-input"
+            type="text"
+            placeholder="Price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+          <select
+            className="sell-input"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          >
+            <option value="">Select Description</option>
+            <option value="concert">Concert</option>
+            <option value="sport">Sport</option>
+            <option value="event">Event</option>
+          </select>
+          <input
+            className="sell-input"
+            type="text"
+            placeholder="Photo URL"
+            value={photoUrl}
+            onChange={(e) => setPhotoUrl(e.target.value)}
+          />
+          <button className="sell-button" type="submit">Add Product</button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default Sell;
+

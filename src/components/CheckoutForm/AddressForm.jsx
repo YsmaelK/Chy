@@ -33,8 +33,8 @@ const AddressForm = ({ cart }) => {
       {cart.line_items ? (
         cart.line_items.map((item) => (
           <div key={item.id} className="cart-item">
-            <h3>{item.name}</h3>
-            <p>Price: {item.price.formatted_with_symbol}</p>
+            <h3>{item.productName}</h3>
+            <p>Price: {typeof item.price === 'number' ? `$${item.price.toFixed(2)}` : `$${parseFloat(item.price).toFixed(2)}`}</p>
             <p>Quantity: {item.quantity}</p>
           </div>
         ))

@@ -1,52 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Card, CardMedia, CardContent, CardActions, Typography, IconButton } from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import useStyles from './styles';
-import { Amplify, Auth } from 'aws-amplify';
-import awsExports from '../../aws-exports';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-Amplify.configure(awsExports);
-
-const Product = ({ product, onAddToCart }) => {
-  const classes = useStyles();
-  const [ setUser] = useState(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await Auth.currentAuthenticatedUser();
-        setUser(userData);
-      } catch (error) {
-        console.error('Error fetching user: ', error);
-      }
-    };
-
+const Product = ({ product, onAddToCart, user }) => {
   return (
-    <Card className={classes.root}>
-        <CardMedia className={classes.media} image = {product.image.url} title={product.name}/>
-        <CardContent>
-            <div className={classes.cardContent}>
-                <Typography variant="h5" gutterBottom>
-                    {product.name}
-                </Typography>
-                <Typography variant="h5">
-                    {product.price.formatted_with_symbol}
-                </Typography>
-            </div>
-            <Typography dangerouslySetInnerHTML={{__html:product.description}} variant="body2" color="textSecondary"/>
-                    
-        </CardContent>
-        <CardActions disableSpacing className={classes.CardActions}>
-           <IconButton aria-label= "Add to Cart" onClick={() => {
- onAddToCart(product.id, 1);
-  }}>
-            <ShoppingCartIcon/>
-            </IconButton> 
-
-        </CardActions>
-
+    <Card sx={{ maxWidth: 345, marginBottom: '20px' }}>
+      <CardMedia component="img" height="140" image={product.photoUrl} alt={product.name} />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {product.name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {product.description}
+        </Typography>
+        <Typography variant="h6" color="text.secondary" sx={{ marginTop: 1 }}>
+          Price: {product.price}
+        </Typography>
+        <Typography variant="caption" color="text.secondary" sx={{ marginTop: 1 }}>
+          Created by: {user}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <IconButton aria-label="add to cart" onClick={() => onAddToCart(product.id, 1)}>
+          <AddShoppingCartIcon />
+        </IconButton>
+      </CardActions>
     </Card>
   );
-}
+};
 
-export default Product
+export default Product;

@@ -10,10 +10,10 @@ import db from '../Firebase'; // Update the path to your Firebase file
 
 Amplify.configure(awsExports);
 
-function Navbar({ totalItems, signOut, user }) {
+function Navbar({ signOut, user }) {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
-
+  const [totalItems, setTotalItems] = useState(0);
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
@@ -33,13 +33,16 @@ function Navbar({ totalItems, signOut, user }) {
       if (user) {
         const userCartRef = db.collection('users').doc(user.username).collection('cartItems');
         const snapshot = await userCartRef.get();
-        
+        let totalCount = 0;
+        snapshot.forEach((doc) => {
+          totalCount += doc.data().quantity;
+        });
+        setTotalItems(totalCount); // Set the total count of items in the state
       }
     };
 
     fetchCartItems();
   }, [user]);
-
   window.addEventListener('resize', showButton);
 
   return (
