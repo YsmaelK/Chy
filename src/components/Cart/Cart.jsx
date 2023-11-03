@@ -25,13 +25,13 @@ const Cart = ({ cart, onCheckout, onRemoveFromCart, firestoreCartItems, onRemove
             Price: {typeof item.price === 'number' ? `$${item.price.toFixed(2)}` : `$${parseFloat(item.price).toFixed(2)}`}
           </Typography>
           <img src={item.photo} alt={item.productName} style={{ width: '100px', height: '100px' }} />
-          <button onClick={() => onRemoveFCart(item.id)}>Remove from Firestore Cart</button>
+          <button onClick={() => onRemoveFCart(item.id)}>Remove from Cart</button>
         </CardContent>
       </Card>
     ))}
   </div>
 ) : (
-  <p>No items in Firestore cart</p>
+  <p>No items in cart</p>
 )}
       <h2>Cart Summary</h2>
       <p>Total Items: {cart ? cart.total_items : 0}</p>

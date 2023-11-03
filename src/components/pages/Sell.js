@@ -28,6 +28,13 @@ const Sell = () => {
     }
   };
 
+  const handleNameChange = (e) => {
+    const input = e.target.value;
+    if (input.length <= 10) {
+      setProductName(input);
+    }
+  };
+
   return (
     <div className="sell-container">
       <h1>Add a Product</h1>
@@ -38,7 +45,7 @@ const Sell = () => {
             type="text"
             placeholder="Product Name"
             value={productName}
-            onChange={(e) => setProductName(e.target.value)}
+            onChange={handleNameChange}
           />
           <input
             className="sell-input"
@@ -72,4 +79,3 @@ const Sell = () => {
 };
 
 export default Sell;
-

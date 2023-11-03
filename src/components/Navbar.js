@@ -49,7 +49,7 @@ function Navbar({ signOut, user }) {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-          LOGO <i className="fa-solid fa-ticket fa-xl"></i>
+          CHY 
         </Link>
         <div className="menu-icon" onClick={handleClick}>
           <i className={click ? 'fas fa-x' : 'fas fa-bars'} />

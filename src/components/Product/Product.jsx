@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardMedia, CardContent, CardActions, Typography, IconButton } from '@mui/material';
+import { Card, CardMedia, CardContent, CardActions, Typography, IconButton, } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const Product = ({ product, onAddToCart, user }) => {

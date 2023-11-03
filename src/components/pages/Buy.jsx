@@ -22,6 +22,11 @@ const styles = {
   card: {
     flex: '0 0 150px',
     margin: '0 10px',
+    width: '150px',
+    height: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   title: {
     textAlign: 'left',

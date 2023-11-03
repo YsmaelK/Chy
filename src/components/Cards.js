@@ -11,7 +11,7 @@ function Cards() {
                     <CardItem
                     src="images/uzi.jpg"
                     text="Lil Uzi Vert "
-                    label='Concert'
+                    label='Find an Event'
                     path='/services'
                     />
                     <CardItem

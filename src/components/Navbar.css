@@ -148,7 +148,7 @@
 
 
    .navbar {
-    background-color: #333;
+    background-color: #d94afd;
     color: #fff;
     padding: 10px 0;
     height: 60px;
@@ -176,9 +176,9 @@
     font-weight: bold;
   }
   
-  .nav-item:hover {
-    color: #ff7f50; 
-  } 
+  .nav-item:hover a {
+    color: #000000;
+  }
   @media (max-width: 100px) {
   .nav-item {
     display: none; /* Hide navigation items on small screens */

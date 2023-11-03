@@ -93,7 +93,7 @@ export function App() {
         await db.collection('carts').doc(user.username).collection('cartItems').add({
           productName: productData.name,
           price: productData.price,
-          file: productData.file, // Change this to 'file'
+          photo: productData.photoUrl,
         });
   
         console.log('Product added to the cart in Firestore');
@@ -134,7 +134,6 @@ export function App() {
 }
 
 export default withAuthenticator(App);
-
 
 /* <>
 <Router>
