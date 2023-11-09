@@ -13,7 +13,8 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import awsExports from './aws-exports';
 import db from './Firebase';
 import ProductDetails from './components/Product/ProductDetails'
-
+import Search from './components/pages/Search'
+import SearchResults  from './components/pages/SearchResults'
 
 export function App() {
   
@@ -109,6 +110,16 @@ export function App() {
       console.error('Error adding product to the cart in Firestore: ', error);
     }
   };
+  const handleSearch = (searchQuery) => {
+    if (searchQuery.trim() === '') {
+      setProducts([]); // Clear the products if the search query is empty
+    } else {
+      const filteredProducts = products.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setProducts(filteredProducts);
+    }
+  };
   const handleCheckout = () => {
     console.log('Checkout initiated');
   };
@@ -124,7 +135,10 @@ export function App() {
         <Route path="/cart" element={<Cart cart={cart} onCheckout={handleCheckout} firestoreCartItems={firestoreCartItems} onRemoveFCart={handleFirestoreItemRemoval} />} />
         <Route path="/review" element={<AddressForm cart={cart} />} />
         <Route path="/product/:name" element={<ProductDetails products={products} onAddToCart={handleAddToCart}  />} />
-        
+        <Route path="/search-results" element={<SearchResults products={products} />} />
+
+        <Route path="/search" element={<Search onSearch={handleSearch} />} />
+
 
       </Routes>
     </Router>

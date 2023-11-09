@@ -12,7 +12,7 @@ function Cards() {
                     src="images/uzi.jpg"
                     text="Lil Uzi Vert "
                     label='Find an Event'
-                    path='/services'
+                    path='/search'
                     />
                     <CardItem
                     src="images/HardS.jpg"
