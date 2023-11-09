@@ -12,17 +12,22 @@ import { Amplify, Auth } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import awsExports from './aws-exports';
 import db from './Firebase';
+import ProductDetails from './components/Product/ProductDetails'
 
-Amplify.configure(awsExports);
 
 export function App() {
+  
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({});
   const [firestoreCartItems, setFirestoreCartItems] = useState([]);
 
-  const fetchProducts = async () => {
+  
+  const fetchProducts = async (searchQuery) => {
     try {
-      const productsRef = db.collection('product');
+      let productsRef = db.collection('product');
+      if (searchQuery) {
+        productsRef = productsRef.where('name', '==', searchQuery);
+      }
       const snapshot = await productsRef.get();
       const productsData = snapshot.docs.map((doc) => doc.data());
       setProducts(productsData);
@@ -108,16 +113,6 @@ export function App() {
     console.log('Checkout initiated');
   };
 
-  const handleRemoveFromCart = async (itemId) => {
-    try {
-      const user = await Auth.currentAuthenticatedUser();
-      await db.collection('carts').doc(user.username).collection('cartItems').doc(itemId).delete();
-      console.log('Document successfully deleted from Firestore cart');
-      fetchFirestoreCartItems(); // Fetch updated Firestore cart items after removal
-    } catch (error) {
-      console.error('Error removing document from Firestore cart: ', error);
-    }
-  };
 
   return (
     <Router>
@@ -126,8 +121,11 @@ export function App() {
         <Route path="/" element={<Home />} />
         <Route path="/buy" element={<Buy products={products} onAddToCart={handleAddToCart} />} />
         <Route path="/sell" element={<Sell />} />
-        <Route path="/cart" element={<Cart cart={cart} onCheckout={handleCheckout} onRemoveFromCart={handleRemoveFromCart} firestoreCartItems={firestoreCartItems} onRemoveFCart={handleFirestoreItemRemoval} />} />
+        <Route path="/cart" element={<Cart cart={cart} onCheckout={handleCheckout} firestoreCartItems={firestoreCartItems} onRemoveFCart={handleFirestoreItemRemoval} />} />
         <Route path="/review" element={<AddressForm cart={cart} />} />
+        <Route path="/product/:name" element={<ProductDetails products={products} onAddToCart={handleAddToCart}  />} />
+        
+
       </Routes>
     </Router>
   );

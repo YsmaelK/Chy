@@ -2,13 +2,95 @@ import React, { useState, useEffect } from 'react';
 import { Amplify, Auth } from 'aws-amplify';
 import awsExports from '../../aws-exports';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
+import { Elements, CardElement, ElementsConsumer,useElements, useStripe } from '@stripe/react-stripe-js';
 import { Card, CardMedia, CardContent, CardActions, Typography, IconButton, Button } from '@mui/material';
 
 Amplify.configure(awsExports);
 const stripePromise = loadStripe('pk_test_51O8DXGKvrB6fpE6lEKSleVz2fJGfTfLNnrgQtNio9fPPblJPnSaCQFcPRmVkPfaKqd1SEQDIlOh48Z62cQdwD2ut00BzvMxTht');
+
+const CheckoutForm = () => {
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const [paymentError, setPaymentError] = useState(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(null);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!stripe || !elements) {
+      return;
+    }
+  
+    const cardElement = elements.getElement(CardElement);
+  
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+    });
+  
+    if (error) {
+      setPaymentError(error.message);
+      setPaymentSuccess(null);
+    } else {
+      setPaymentSuccess(paymentMethod.id);
+      setPaymentError(null);
+  
+      // Send the paymentMethod.id to your server to complete the payment
+      try {
+        const response = await fetch('/review', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ paymentMethodId: paymentMethod.id }),
+        });
+  
+        if (response.ok) {
+          console.log('Payment processed successfully');
+        } else {
+          console.error('Failed to process payment');
+        }
+      } catch (error) {
+        console.error('Error sending payment details to server:', error);
+      }
+    }
+  };
+  
+
+  return (
+    <div>
+      <h2>Checkout</h2>
+      <form onSubmit={handleSubmit}>
+        <CardElement
+          options={{
+            style: {
+              base: {
+                fontSize: '16px',
+                color: '#424770',
+                '::placeholder': {
+                  color: '#aab7c4',
+                },
+              },
+              invalid: {
+                color: '#9e2146',
+              },
+            },
+          }}
+        />
+        <Button type="submit" disabled={!stripe}>
+          Pay
+        </Button>
+      </form>
+      {paymentError && <Typography variant="body1" color="error">{paymentError}</Typography>}
+      {paymentSuccess && <Typography variant="body1" color="success">Payment successful!</Typography>}
+    </div>
+  );
+};
+
+
 const AddressForm = ({ cart }) => {
   const [user, setUser] = useState(null);
+  const [paymentComplete, setPaymentComplete] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -23,22 +105,7 @@ const AddressForm = ({ cart }) => {
     fetchUser();
   }, []);
 
-  const handleSubmit = async (event, elements, stripe) => {
-    event.preventDefault();
-
-    if (!stripe || !elements) return;
-
-    const cardElement = elements.getElement(CardElement);
-
-    const { error, paymentMethod } = await stripe.createPaymentMethod({ type: 'card', card: cardElement });
-
-    if (error) {
-      console.log(error);
-    } else {
-      // Process the payment or save the payment method here
-      console.log(paymentMethod);
-    }
-  };
+  
 
   return (
     <div>
@@ -50,38 +117,30 @@ const AddressForm = ({ cart }) => {
         </div>
       )}
 
-      {cart.line_items ? (
-        cart.line_items.map((item) => (
-          <div key={item.id} className="cart-item">
-            <Typography variant="h6">{item.productName}</Typography>
-            <Typography variant="body1">
-              Price:{' '}
-              {typeof item.price === 'number' ? `$${item.price.toFixed(2)}` : `$${parseFloat(item.price).toFixed(2)}`}
-            </Typography>
-          </div>
-        ))
-      ) : (
-        <Typography variant="body1">No items in cart</Typography>
-      )}
+{cart.line_items ? (
+  cart.line_items.map((item, index) => (
+    <div key={index} className="cart-item">
+      <Typography variant="h6">
+        {item.productName}
+      </Typography>
+      <Typography variant="body1">
+        Price:{' '}
+        {typeof item.price === 'number' ? `$${item.price.toFixed(2)}` : `$${parseFloat(item.price).toFixed(2)}`}
+      </Typography>
+    </div>
+  ))
+) : (
+  <Typography variant="body1" key="no-items">
+    No items in cart
+  </Typography>
+)}
+
       <Typography variant="h6" gutterBottom style={{ margin: '20px 0' }}>
         Payment Method
       </Typography>
       <Elements stripe={stripePromise}>
-        <ElementsConsumer>
-          {({ elements, stripe }) => (
-            <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
-              <CardElement />
-              <br /> <br />
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button variant="outlined">Back</Button>
-                <Button type="submit" variant="contained" disabled={!stripe} color="primary">
-                  Pay {cart && cart.subtotal && cart.subtotal.formatted_with_symbol}
-                </Button>
-              </div>
-            </form>
-          )}
-        </ElementsConsumer>
-      </Elements>
+      <CheckoutForm />
+    </Elements>
     </div>
   );
 };

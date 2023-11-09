@@ -3,20 +3,39 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { IconButton, Badge } from '@mui/material';
-import { Amplify } from 'aws-amplify';
+import { Amplify,Auth } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import awsExports from '../aws-exports';
 import db from '../Firebase'; // Update the path to your Firebase file
 
-Amplify.configure(awsExports);
+Amplify.configure({
+  ...awsExports,
+  Auth: {
+    // Adjust the authentication configuration as needed
+    mandatorySignIn: false, // Set to false to allow access to certain parts of the app without signing in
+    // other Auth configurations
+  },
+  // other Amplify configurations
+});
 
-function Navbar({ signOut, user }) {
+function Navbar({  user }) {
+  const [loggedIn,setLoggedIn] = useState(false);
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
   const [totalItems, setTotalItems] = useState(0);
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
+  useEffect(() => {
+    AssessLoggedInState()
+  }, [])
+  const AssessLoggedInState= () =>{
+    Auth.currentAuthenticatedUser().then(() => {
+      setLoggedIn(true)
 
+    }).catch(() =>{
+      setLoggedIn(false);
+    })
+  }
   const showButton = () => {
     if (window.innerWidth <= 960) {
       setButton(false);
@@ -24,7 +43,15 @@ function Navbar({ signOut, user }) {
       setButton(true);
     }
   };
-
+  const signOut = async () => {
+    try {
+      await Auth.signOut();
+      setLoggedIn(false);
+    } catch (error) {
+      console.log('Error signing out', error);
+    }
+  };
+  
   useEffect(() => {
     showButton();
 
@@ -54,30 +81,33 @@ function Navbar({ signOut, user }) {
         <div className="menu-icon" onClick={handleClick}>
           <i className={click ? 'fas fa-x' : 'fas fa-bars'} />
         </div>
-        <ul className={click ? 'nav-menu active' : 'nav menu'}>
-          <ul className="nav-list">
-            <li className="nav-item">
-              <a href="/buy">Buy</a>
-            </li>
-            <li className="nav-item">
-              <a href="/sell">{user.username}</a>
-            </li>
-            <li className="nav-item">
-              <a onClick={signOut}>Sign Out</a>
-            </li>
-          </ul>
-        </ul>
-        <a href="/cart" onClick={handleClick}>
-          <IconButton aria-label="Show Cart Items" color="inherit">
-            <Badge badgeContent={totalItems} color="secondary">
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
-        </a>
+        <ul className="nav-list">
+  <li className="nav-item">
+    <Link to="/buy">Buy</Link>
+  </li>
+  <li className="nav-item">
+    <Link to="/sell">{user.username}</Link>
+  </li>
+  <li className="nav-item">
+    {loggedIn ? (
+      <a onClick={signOut}>Sign Out</a>
+    ) : (
+      <Link to="/signin">Sign in</Link>
+    )}
+  </li>
+</ul>
+
+<Link to="/cart" onClick={handleClick}>
+  <IconButton aria-label="Show Cart Items" color="inherit">
+    <Badge badgeContent={totalItems} color="secondary">
+      <ShoppingCartIcon />
+    </Badge>
+  </IconButton>
+</Link>
       </div>
     </nav>
   );
 }
 
-export default withAuthenticator(Navbar);
+export default withAuthenticator(Navbar, { isSignedIn: true });
 
