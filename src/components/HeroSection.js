@@ -8,8 +8,8 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 function HeroSection({ user }) {
   return (
     <div className='hero-container'>
-      <h1>BUY MY SHIT </h1>
-      <p>DO IT!</p>
+      <h1>CHY </h1>
+      <p>It's Party Time!</p>
       <div className="hero-btns">
         <Button
           to="/profile"
