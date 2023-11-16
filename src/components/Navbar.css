@@ -1,11 +1,28 @@
 
-  
+
   .navbar-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 60px;
     max-width: 1500px;
+  }
+  .search-bar {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    border: none; /* Optional: Remove the border */
+  }
+  .search-bar input {
+    background-color: transparent;
+    border: none;
+    color: #fff; /* Optional: Set the text color */
+  }
+  .search-bar input:focus {
+    outline: none;
+  }
+  .search-button {
+    background-color: transparent; /* Make the background transparent */
   }
   .navbar-logo {
     color: #fff;
@@ -64,10 +81,6 @@
   }
   
   @media screen and (max-width: 960px) {
-    .NavbarItems {
-      position: relative;
-    }
-  
     .nav-menu {
       display: flex;
       flex-direction: column;
@@ -144,8 +157,12 @@
       color: #242424;
       transition: 250ms;
     }
+  
+    /* Hide navigation items on small screens */
+    .nav-item {
+      display: none;
+    }
   }
-
 
    .navbar {
     background-color: #d94afd;

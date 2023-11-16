@@ -4,7 +4,7 @@ import HeroSection from '../HeroSection.js'
 import Cards from '../Cards'
 import './Home.css'
 
-function Home(){
+function Home(user){
     return(
         <>
         <Cards/>

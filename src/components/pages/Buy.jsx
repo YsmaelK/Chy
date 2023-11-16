@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Product from '../Product/Product';
 import db from '../../Firebase';
-
+import './Buy.css'
 const styles = {
+
+  
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -32,6 +34,8 @@ const styles = {
     textAlign: 'left',
     marginBottom: '20px',
   },
+
+  
 };
 
 const Buy = ({ onAddToCart }) => {
@@ -65,7 +69,8 @@ const Buy = ({ onAddToCart }) => {
         {products
           .filter(product => !product.description.toLowerCase().includes('sport') && !product.description.toLowerCase().includes('event'))
           .map(product => (
-            <div key={product.id} style={styles.card}>
+            <div key={product.id}  style={{ ...styles.card, transition: 'background-color 0.3s' }}>
+
               <Product product={product} onAddToCart={onAddToCart} />
             </div>
           ))}

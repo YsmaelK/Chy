@@ -3,6 +3,8 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Home from './components/pages/Home.js';
 import Buy from './components/pages/Buy.jsx';
+import Profile from './components/pages/Profile';
+
 import Sell from './components/pages/Sell.js';
 import AddressForm from './components/CheckoutForm/AddressForm';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -127,7 +129,7 @@ export function App() {
 
   return (
     <Router>
-      <Navbar totalItems={cart.total_items} />
+      <Navbar totalItems={cart.total_items} onSearch={handleSearch} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/buy" element={<Buy products={products} onAddToCart={handleAddToCart} />} />
@@ -136,7 +138,7 @@ export function App() {
         <Route path="/review" element={<AddressForm cart={cart} />} />
         <Route path="/product/:name" element={<ProductDetails products={products} onAddToCart={handleAddToCart}  />} />
         <Route path="/search-results" element={<SearchResults products={products} />} />
-
+        <Route path="/profile" component={Profile} />
         <Route path="/search" element={<Search onSearch={handleSearch} />} />
 
 

@@ -1,9 +1,18 @@
 .sell-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-  }
+  background-image: url("https://cdn.shopify.com/s/files/1/0982/0722/files/6-1-2016_5-49-53_PM_1024x1024.jpg?7174960393118038727");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form-container {
+  background-color: rgba(255, 255, 255, 0.7); /* Use the desired background color with opacity */
+  padding: 20px;
+  border-radius: 10px;
+}
+
   
   .sell-form {
     display: flex;
@@ -36,4 +45,18 @@
   .sell-button:hover {
     background-color: #ad58c2;
   }
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   
+  .centered-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; /* Adjust the margin as needed */
+  }
+  .smaller-button {
+    padding: 8px 16px; /* Adjust padding for the desired size */
+    font-size: 14px; /* Adjust font size for the desired size */
+  }

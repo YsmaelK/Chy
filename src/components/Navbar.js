@@ -1,48 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css';
+import { Link, useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Badge } from '@mui/material';
-import { Amplify,Auth } from 'aws-amplify';
+import Search from './pages/Search'; // Assuming the relative path is correct
+import { Amplify, Auth } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import awsExports from '../aws-exports';
 import db from '../Firebase'; // Update the path to your Firebase file
+import './Navbar.css';
 
 Amplify.configure({
   ...awsExports,
   Auth: {
-    // Adjust the authentication configuration as needed
-    mandatorySignIn: false, // Set to false to allow access to certain parts of the app without signing in
-    // other Auth configurations
+    mandatorySignIn: false,
   },
-  // other Amplify configurations
 });
 
-function Navbar({  user }) {
-  const [loggedIn,setLoggedIn] = useState(false);
-  const [click, setClick] = useState(false);
-  const [button, setButton] = useState(true);
-  const [totalItems, setTotalItems] = useState(0);
-  const handleClick = () => setClick(!click);
-  const closeMobileMenu = () => setClick(false);
-  useEffect(() => {
-    AssessLoggedInState()
-  }, [])
-  const AssessLoggedInState= () =>{
-    Auth.currentAuthenticatedUser().then(() => {
-      setLoggedIn(true)
+const Navbar = ({ user, onSearch }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  const [totalItems, setTotalItems] = useState(0); // Define the totalItems state variable
+  const [showMenu, setShowMenu] = useState(false);
 
-    }).catch(() =>{
-      setLoggedIn(false);
-    })
-  }
-  const showButton = () => {
-    if (window.innerWidth <= 960) {
-      setButton(false);
-    } else {
-      setButton(true);
-    }
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
   };
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 960 && showMenu) {
+        setShowMenu(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [showMenu]);
+
+  useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then(() => {
+        setLoggedIn(true);
+      })
+      .catch(() => {
+        setLoggedIn(false);
+      });
+  }, []);
+
   const signOut = async () => {
     try {
       await Auth.signOut();
@@ -51,63 +55,62 @@ function Navbar({  user }) {
       console.log('Error signing out', error);
     }
   };
-  
-  useEffect(() => {
-    showButton();
-
-    // Fetch the user's cart data from Firestore and calculate the total number of items
-    const fetchCartItems = async () => {
-      if (user) {
-        const userCartRef = db.collection('users').doc(user.username).collection('cartItems');
-        const snapshot = await userCartRef.get();
-        let totalCount = 0;
-        snapshot.forEach((doc) => {
-          totalCount += doc.data().quantity;
-        });
-        setTotalItems(totalCount); // Set the total count of items in the state
-      }
-    };
-
-    fetchCartItems();
-  }, [user]);
-  window.addEventListener('resize', showButton);
+  const handleSearch = (e) => {
+    e.preventDefault();
+    onSearch(searchQuery);
+    setSearchQuery('');
+    navigate('/search-results'); // Navigate to the search results page
+  };
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-          CHY 
+        <Link to="/" className="navbar-logo">
+          CHY
         </Link>
-        <div className="menu-icon" onClick={handleClick}>
-          <i className={click ? 'fas fa-x' : 'fas fa-bars'} />
+        <div className={`nav-items ${showMenu ? 'active' : ''}`}>
+          <Link to="/buy" className="nav-item">
+            Buy
+          </Link>
+          <Link to="/sell" className="nav-item">
+            Sell
+          </Link>
+          {loggedIn ? (
+            <a onClick={signOut} className="nav-item">
+              Sign Out
+            </a>
+          ) : (
+            <Link to="/signin" className="nav-item">
+              Sign in
+            </Link>
+          )}
         </div>
-        <ul className="nav-list">
-  <li className="nav-item">
-    <Link to="/buy">Buy</Link>
-  </li>
-  <li className="nav-item">
-    <Link to="/sell">{user.username}</Link>
-  </li>
-  <li className="nav-item">
-    {loggedIn ? (
-      <a onClick={signOut}>Sign Out</a>
-    ) : (
-      <Link to="/signin">Sign in</Link>
-    )}
-  </li>
-</ul>
-
-<Link to="/cart" onClick={handleClick}>
-  <IconButton aria-label="Show Cart Items" color="inherit">
-    <Badge badgeContent={totalItems} color="secondary">
-      <ShoppingCartIcon />
-    </Badge>
-  </IconButton>
-</Link>
+        <div className="search-container">
+      <form onSubmit={handleSearch}>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button type="submit" className="search-button">
+            <SearchIcon />
+          </button>
+        </div>
+      </form>
+        </div>
+      
+        <Link to="/cart" className="nav-item">
+          <IconButton aria-label="Show Cart Items" color="inherit">
+            <Badge badgeContent={totalItems} color="secondary">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+        </Link>
       </div>
     </nav>
   );
-}
+};
 
 export default withAuthenticator(Navbar, { isSignedIn: true });
-
