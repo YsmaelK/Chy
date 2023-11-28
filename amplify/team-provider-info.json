@@ -21,12 +21,6 @@
       },
       "storage": {
         "checkout": {}
-      },
-      "function": {
-        "preSignUp": {
-          "deploymentBucketName": "amplify-chy-dev-155319-deployment",
-          "s3Key": "amplify-builds/preSignUp-4639707164516b4f6777-build.zip"
-        }
       }
     }
   }

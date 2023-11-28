@@ -59,31 +59,7 @@
       "service": "Cognito-UserPool-Groups"
     }
   },
-  "function": {
-    "preSignUp": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
-  "parameters": {
-    "AMPLIFY_function_preSignUp_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "preSignUp"
-        }
-      ]
-    },
-    "AMPLIFY_function_preSignUp_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "preSignUp"
-        }
-      ]
-    }
-  },
+  "function": {},
   "storage": {
     "checkout": {
       "dependsOn": [],

@@ -20,15 +20,6 @@ export type AmplifyDependentResourcesAttributes = {
       "nov27GroupRole": "string"
     }
   },
-  "function": {
-    "preSignUp": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
-    }
-  },
   "storage": {
     "checkout": {
       "BucketName": "string",
