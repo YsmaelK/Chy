@@ -155,7 +155,7 @@ export function App() {
         <Route path="/review" element={<AddressForm cart={cart} />} />
         <Route path="/product/:name" element={<ProductDetails products={products} onAddToCart={handleAddToCart}  />} />
         <Route path="/search-results" element={<SearchResults products={products} />} />
-        <Route path="/profile" component={Profile} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/search" element={<Search onSearch={handleSearch} />} />
         <Route path="/signin" element={<SignIn />} />
 

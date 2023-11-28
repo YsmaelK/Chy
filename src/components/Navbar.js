@@ -3,33 +3,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Badge } from '@mui/material';
-import Search from './pages/Search'; // Assuming the relative path is correct
+import Search from './pages/Search';
 import { Amplify, Auth } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import awsExports from '../aws-exports';
-import db from '../Firebase'; // Update the path to your Firebase file
+import db from '../Firebase';
 import './Navbar.css';
-
 
 const Navbar = ({ user, onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
-  const [totalItems, setTotalItems] = useState(0); // Define the totalItems state variable
+  const [totalItems, setTotalItems] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 960 && showMenu) {
-        setShowMenu(false);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [showMenu]);
 
   useEffect(() => {
     Auth.currentAuthenticatedUser()
@@ -42,6 +32,7 @@ const Navbar = ({ user, onSearch }) => {
         setLoggedIn(false);
       });
   }, []);
+
   const signOut = async () => {
     try {
       await Auth.signOut();
@@ -50,11 +41,12 @@ const Navbar = ({ user, onSearch }) => {
       console.log('Error signing out', error);
     }
   };
+
   const handleSearch = (e) => {
     e.preventDefault();
     onSearch(searchQuery);
     setSearchQuery('');
-    navigate('/search-results'); // Navigate to the search results page
+    navigate('/search-results');
   };
 
   return (
@@ -67,11 +59,11 @@ const Navbar = ({ user, onSearch }) => {
           <Link to="/buy" className="nav-item">
             Buy
           </Link>
-          {loggedIn ? (
+          {loggedIn && (
             <Link to="/sell" className="nav-item">
               Sell
             </Link>
-          ) : null}
+          )}
           {loggedIn ? (
             <a onClick={signOut} className="nav-item">
               Sign Out
@@ -83,28 +75,51 @@ const Navbar = ({ user, onSearch }) => {
           )}
         </div>
         <div className="search-container">
-      <form onSubmit={handleSearch}>
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button type="submit" className="search-button">
-            <SearchIcon />
-          </button>
+          <form onSubmit={handleSearch}>
+            <div className="search-bar">
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <button type="submit" className="search-button">
+                <SearchIcon />
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
-        </div>
-      
-        <Link to="/cart" className="nav-item">
+        <Link to="/cart" className="nav-item-cart">
           <IconButton aria-label="Show Cart Items" color="inherit">
             <Badge badgeContent={totalItems} color="secondary">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
         </Link>
+        {/* Mobile Menu Icon */}
+        <div className="menu-icon" onClick={toggleMenu}>
+          {showMenu ? <i className="fas fa-times"></i> : <i className="fas fa-bars"></i>}
+        </div>
+      </div>
+      {/* Mobile Menu */}
+      <div className={`nav-menu-mobile ${showMenu ? 'active' : ''}`}>
+        <Link to="/buy" className="nav-link-mobile">
+          Buy
+        </Link>
+        {loggedIn && (
+          <Link to="/sell" className="nav-link-mobile">
+            Sell
+          </Link>
+        )}
+        {loggedIn ? (
+          <a onClick={signOut} className="nav-link-mobile">
+            Sign Out
+          </a>
+        ) : (
+          <Link to="/signin" className="nav-link-mobile">
+            Sign in
+          </Link>
+        )}
       </div>
     </nav>
   );

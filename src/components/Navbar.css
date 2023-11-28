@@ -1,203 +1,158 @@
+/* Navbar.css */
+
+/* Resetting default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+/* Navbar styling */
+.navbar {
+  background-color: #d94afd;
+  color: #fff;
+  padding: 10px 0;
+  height: 60px;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center items vertically */
+  height: 60px;
+  max-width: 1500px;
+}
 
 
-  .navbar-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-    max-width: 1500px;
-  }
-  .search-bar {
-    background-color: transparent;
-    display: flex;
-    align-items: center;
-    border: none; /* Optional: Remove the border */
-  }
-  .search-bar input {
-    background-color: transparent;
-    border: none;
-    color: #fff; /* Optional: Set the text color */
-  }
-  .search-bar input:focus {
-    outline: none;
-  }
-  .search-button {
-    background-color: transparent; /* Make the background transparent */
-  }
-  .navbar-logo {
-    color: #fff;
-    justify-self: start;
-    margin-left: 20px;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 2rem;
-    display: flex;
-    align-items: center;
-  }
-  
-  .fa-typo3 {
-    margin-left: 0.5rem;
-    font-size: 1.8rem;
-  }
-  
-  .nav-menu {
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    grid-gap: 10px;
-    list-style: none;
-    text-align: center;
-    width: 60vw;
-    justify-content: end;
-    margin-right: 2rem;
-  }
-  
- 
-  .nav-links {
-    color: #fff;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    height: 100%;
-  }
-  
-  .nav-links:hover {
-    border-bottom: 4px solid #fff;
-    transition: all 0.2s ease-out;
-  }
-  
-  .fa-bars {
-    color: #fff;
-  }
-  .fa-x {
-    color: #fff;
-  }
-  .nav-links-mobile {
-    display: none;
-  }
-  
-  .menu-icon {
-    display: none;
-  }
-  
-  @media screen and (max-width: 960px) {
-    .nav-menu {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      height: 90vh;
-      position: absolute;
-      top: 80px;
-      left: -100%;
-      opacity: 1;
-      transition: all 0.5s ease;
-    }
-  
-    .nav-menu.active {
-      background: #242222;
-      left: 0;
-      opacity: 1;
-      transition: all 0.5s ease;
-      z-index: 1;
-      height: 100px;
-    }
-  
-    .nav-links {
-      text-align: center;
-      padding: 2rem;
-      width: 100%;
-      display: table;
-    }
-  
-    .nav-links:hover {
-      background-color: #fff;
-      color: #242424;
-      border-radius: 0;
-    }
-  
-    .navbar-logo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transform: translate(25%, 50%);
-    }
-  
-    .menu-icon {
-      display: block;
-      position: absolute;
-      top: 0;
-      right: 0;
-      transform: translate(-100%, 60%);
-      font-size: 1.8rem;
-      cursor: pointer;
-    }
-  
-    .fa-times {
-      color: #fff;
-      font-size: 2rem;
-    }
-  
-    .nav-links-mobile {
-      display: block;
-      text-align: center;
-      margin: 2rem auto;
-      border-radius: 4px;
-      width: 80%;
-      text-decoration: none;
-      font-size: 1.5rem;
-      background-color: transparent;
-      color: #fff;
-      padding: 14px 20px;
-      border: 1px solid #fff;
-      transition: all 0.3s ease-out;
-    }
-  
-    .nav-links-mobile:hover {
-      background: #fff;
-      color: #242424;
-      transition: 250ms;
-    }
-  
-    /* Hide navigation items on small screens */
-    .nav-item {
-      display: none;
-    }
-  }
+.navbar-logo {
+  color: #fff;
+  margin-left: 50px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 2rem;
+  font-family: 'Frutiger', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Frutiger font with fallbacks */
+  margin-bottom: 10px; /* Adjust the margin to move the logo up */
 
-   .navbar {
-    background-color: #d94afd;
-    color: #fff;
-    padding: 10px 0;
-    height: 60px;
-  }
   
-  .nav-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content:space-around;
-  }
-  
-  .nav-item {
+}
+
+.nav-items {
+  display: flex;
+  list-style: none;
+}
+.nav-item {
   margin-right: 15px;
   text-decoration: none;
   color: #fff;
-  font-weight: bold;
+  font-weight: normal;
   transition: color 0.3s;
+  margin-bottom: 5px; /* Adjust the margin to move items up */
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: normal;
+}
+
+.nav-item:hover a {
+  color: #000;
+}
+
+.search-container {
+  max-width: 300px; /* Adjust the maximum width as needed */
+}
+
+.search-bar {
+  background-color: transparent; /* 50% transparent white */
+  display: flex;
+  align-items: center;
+  border: none;
+  max-width: 100%; /* Set to 100% to allow responsiveness */
+  margin: 0 auto; /* Center the search bar */
+}
+
+
+.search-bar input {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  width: 100%;
+  padding: 8px;
+}
+
+.search-bar input:focus {
+  outline: none;
+}
+
+.search-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-item-cart {
+  margin-right: 15px;
+}
+
+/* Mobile Menu Icon */
+.menu-icon {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* Mobile Menu */
+.nav-menu-mobile {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background-color: #d94afd;
+  text-align: center;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-menu-mobile.active {
+  display: flex;
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.nav-link-mobile {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+.nav-link-mobile:hover {
+  background-color: #fff;
+  color: #242424;
+  transition: 250ms;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 600px) {
+  .nav-items {
+    display: none;
   }
-  
-  .nav-item a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
+
+  .menu-icon {
+    display: block;
   }
-  
-  .nav-item:hover a {
-    color: #000000;
-  }
-  @media (max-width: 100px) {
-  .nav-item {
-    display: none; /* Hide navigation items on small screens */
+
+  .nav-item-cart {
+    margin-right: 0;
   }
 }

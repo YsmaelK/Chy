@@ -18,9 +18,9 @@ function HeroSection({ user }) {
           buttonStyle='btn--outline'
           buttonSize='btn--large'
           // Add an onClick handler to navigate to the profile page
-          onClick={() => user ? window.location.href = "/profile" : window.location.href = "/signin"}
+          onClick={() => user ? window.location.href = "/profile" : window.location.href = "/profile"}
         >
-          {user ? user.username : 'Guest'}
+          {user ? user.username : 'Profile'}
         </Button>
         <Button
           to="/about"
