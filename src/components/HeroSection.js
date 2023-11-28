@@ -4,6 +4,8 @@ import '../App.css';
 import { Button } from './Button';
 import './HeroSection.css';
 import { withAuthenticator } from '@aws-amplify/ui-react';
+import { Link } from 'react-router-dom';  // Import Link from react-router-dom
+
 
 function HeroSection({ user }) {
   return (
@@ -12,10 +14,11 @@ function HeroSection({ user }) {
       <p>It's Party Time!</p>
       <div className="hero-btns">
         <Button
-          to="/profile"
           className='btns'
           buttonStyle='btn--outline'
           buttonSize='btn--large'
+          // Add an onClick handler to navigate to the profile page
+          onClick={() => user ? window.location.href = "/profile" : window.location.href = "/signin"}
         >
           {user ? user.username : 'Guest'}
         </Button>
@@ -32,4 +35,4 @@ function HeroSection({ user }) {
   );
 }
 
-export default withAuthenticator(HeroSection, { isSignedIn: true });
+export default HeroSection;

@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Home from './components/pages/Home.js';
 import Buy from './components/pages/Buy.jsx';
 import Profile from './components/pages/Profile';
+import SignIn from './components/pages/SignIn';
 
 import Sell from './components/pages/Sell.js';
 import AddressForm from './components/CheckoutForm/AddressForm';
@@ -17,13 +18,16 @@ import db from './Firebase';
 import ProductDetails from './components/Product/ProductDetails'
 import Search from './components/pages/Search'
 import SearchResults  from './components/pages/SearchResults'
+import { Navigate } from 'react-router-dom';
+Amplify.configure(awsExports);
+
 
 export function App() {
   
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({});
   const [firestoreCartItems, setFirestoreCartItems] = useState([]);
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   
   const fetchProducts = async (searchQuery) => {
     try {
@@ -87,8 +91,21 @@ export function App() {
     fetchProducts();
     fetchCart();
     fetchFirestoreCartItems();
-  }, []);
 
+  }, []);
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await Auth.currentAuthenticatedUser();
+        setIsAuthenticated(true);
+        console.log('User is authenticated');
+      } catch (error) {
+        setIsAuthenticated(false);
+        console.error('Authentication error: ', error);
+      }
+    };
+    checkAuth();
+  }, []);
   const handleAddToCart = async (productId, quantity) => {
     try {
       const productRef = db.collection('product').doc(productId);
@@ -131,7 +148,7 @@ export function App() {
     <Router>
       <Navbar totalItems={cart.total_items} onSearch={handleSearch} />
       <Routes>
-        <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home />} />
         <Route path="/buy" element={<Buy products={products} onAddToCart={handleAddToCart} />} />
         <Route path="/sell" element={<Sell />} />
         <Route path="/cart" element={<Cart cart={cart} onCheckout={handleCheckout} firestoreCartItems={firestoreCartItems} onRemoveFCart={handleFirestoreItemRemoval} />} />
@@ -140,6 +157,8 @@ export function App() {
         <Route path="/search-results" element={<SearchResults products={products} />} />
         <Route path="/profile" component={Profile} />
         <Route path="/search" element={<Search onSearch={handleSearch} />} />
+        <Route path="/signin" element={<SignIn />} />
+
 
 
       </Routes>
@@ -147,7 +166,7 @@ export function App() {
   );
 }
 
-export default withAuthenticator(App);
+export default App;
 
 /* <>
 <Router>

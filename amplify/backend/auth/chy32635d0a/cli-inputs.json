@@ -14,7 +14,7 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Your verification code",
+    "emailVerificationSubject": "HELLO! Your verification code",
     "emailVerificationMessage": "Your verification code is {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
@@ -38,7 +38,9 @@
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "default",
     "triggers": {},
-    "userPoolGroupList": [],
+    "userPoolGroupList": [
+      "nov27"
+    ],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "useEnabledMfas": true,
@@ -55,6 +57,36 @@
       ]
     },
     "breakCircularDependency": true,
-    "dependsOn": []
+    "dependsOn": [],
+    "parentStack": {
+      "Ref": "AWS::StackId"
+    },
+    "rules": [
+      {
+        "provider": "user",
+        "name": "customRule",
+        "enabled": true,
+        "description": "Allow registration only for users with email ending in '@cpp.edu'",
+        "attributeCheck": {
+          "email": [
+            {
+              "equals": "@cpp.edu",
+              "operator": "endsWith"
+            }
+          ]
+        },
+        "actions": {
+          "denyRegistration": {
+            "challengeName": "CUSTOM_CHALLENGE",
+            "challengeMetadata": "Invalid email domain. Please use an email ending in '@cpp.edu'."
+          }
+        }
+      }
+    ],
+    "triggers": {
+      "preSignUp": "arn:aws:lambda:us-west-1:001413739527:function:preSignUp-dev"
+    },
+    "permissions": []
+
   }
 }

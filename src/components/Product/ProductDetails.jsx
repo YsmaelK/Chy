@@ -4,6 +4,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EventIcon from '@mui/icons-material/Event';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import './ProductDetails.css'; // Import the CSS file for styling
+import LinkIcon from '@mui/icons-material/Link';
 
 const ProductDetails = ({ products, onAddToCart }) => {
   const { name } = useParams();
@@ -39,6 +40,11 @@ const ProductDetails = ({ products, onAddToCart }) => {
       {/* Location symbol next to product.loc */}
       {product.info && (
         <p className="info-container">Additional Info: {product.info}</p>
+      )}
+      {product.social && (
+        <p className="social-media-container">
+          <LinkIcon /> Contact Me: <a href={product.social} target="_blank" rel="noopener noreferrer">{product.social}</a>
+        </p>
       )}
       <button aria-label="add to cart" onClick={() => onAddToCart(product.id, 1)}>
         <AddShoppingCartIcon /> Add to Cart - ${product.price}

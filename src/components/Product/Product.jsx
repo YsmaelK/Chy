@@ -19,7 +19,7 @@ const Product = ({ product, onAddToCart, user }) => {
             Price: {product.price}
           </Typography>
           <Typography variant="caption" color="text.secondary" sx={{ marginTop: 1 }}>
-            Created by: {user}
+            Created by: {product.username}
           </Typography>
         </CardContent>
         <CardActions>

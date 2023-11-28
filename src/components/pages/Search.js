@@ -14,9 +14,9 @@ const Search = ({ onSearch }) => {
   };
 
   return (
-    <div className="search-container1">
-      <form onSubmit={handleSearch}>
-        <div className="search-bar1">
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundImage: 'url("https://www.swindonalexandrahouse.co.uk/wp-content/uploads/2021/08/suprise-party-ideas.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <form onSubmit={handleSearch}>
+      <div className="search-bar1">
           <input
             type="text"
             placeholder="Search..."
@@ -27,10 +27,11 @@ const Search = ({ onSearch }) => {
               fontSize: '1rem',
               border: '1px solid #ccc',
               borderRadius: '5px',
-              width: '300px', // Adjust the width as needed
+              width: '300px',
+              backgroundColor: 'rgba(255, 255, 255, 0.5)', // Adjust the width as needed
             }}
           />
-          <button type="submit" className="search-button1">
+          <button type="submit" className="search-button1" style={{ background: 'transparent', border: 'none' }}>
             <SearchIcon />
           </button>
         </div>

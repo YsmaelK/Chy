@@ -10,12 +10,6 @@ import awsExports from '../aws-exports';
 import db from '../Firebase'; // Update the path to your Firebase file
 import './Navbar.css';
 
-Amplify.configure({
-  ...awsExports,
-  Auth: {
-    mandatorySignIn: false,
-  },
-});
 
 const Navbar = ({ user, onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -39,14 +33,15 @@ const Navbar = ({ user, onSearch }) => {
 
   useEffect(() => {
     Auth.currentAuthenticatedUser()
-      .then(() => {
+      .then((user) => {
+        console.log('User is logged in:', user);
         setLoggedIn(true);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log('User is not logged in:', error);
         setLoggedIn(false);
       });
   }, []);
-
   const signOut = async () => {
     try {
       await Auth.signOut();
@@ -72,9 +67,11 @@ const Navbar = ({ user, onSearch }) => {
           <Link to="/buy" className="nav-item">
             Buy
           </Link>
-          <Link to="/sell" className="nav-item">
-            Sell
-          </Link>
+          {loggedIn ? (
+            <Link to="/sell" className="nav-item">
+              Sell
+            </Link>
+          ) : null}
           {loggedIn ? (
             <a onClick={signOut} className="nav-item">
               Sign Out
@@ -113,4 +110,4 @@ const Navbar = ({ user, onSearch }) => {
   );
 };
 
-export default withAuthenticator(Navbar, { isSignedIn: true });
+export default Navbar;

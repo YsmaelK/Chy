@@ -9,7 +9,8 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import CelebrationIcon from '@mui/icons-material/Celebration';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-
+import LinkIcon from '@mui/icons-material/Link';
+import { Auth } from 'aws-amplify';
 const Sell = () => {
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
@@ -21,6 +22,7 @@ const Sell = () => {
   const [info, setInfo] = useState('');
   const [error, setError] = useState('');
   const [isFree, setIsFree] = useState(false);
+  const [socialMediaLink, setSocialMediaLink] = useState('');
   // ... existing state declarations
 
   const handleFreeButtonClick = () => {
@@ -43,6 +45,8 @@ const Sell = () => {
     }
 
     try {
+      const user = await Auth.currentAuthenticatedUser();
+
       await db.collection('product').add({
         name: productName,
         price: price,
@@ -52,6 +56,9 @@ const Sell = () => {
         loc: loc,
         time: formatTime(time),
         info: info,
+        social: socialMediaLink,
+        username: user.username,
+
       });
       console.log('Product added successfully!');
       setProductName('');
@@ -218,6 +225,18 @@ const Sell = () => {
                 placeholder="Photo URL"
                 value={photoUrl}
                 onChange={(e) => setPhotoUrl(e.target.value)}
+              />
+            </div>
+            <div className="social-media-input">
+              <span className="link-icon">
+                <LinkIcon />
+              </span>
+              <input
+                className="sell-input"
+                type="text"
+                placeholder="Social Media Link"
+                value={socialMediaLink}
+                onChange={(e) => setSocialMediaLink(e.target.value)}
               />
             </div>
           <button className="sell-button" type="submit">
