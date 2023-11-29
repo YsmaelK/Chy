@@ -89,13 +89,13 @@ const Navbar = ({ user, onSearch }) => {
             </div>
           </form>
         </div>
-        <Link to="/cart" className="nav-item-cart">
+        {/* <Link to="/cart" className="nav-item-cart">
           <IconButton aria-label="Show Cart Items" color="inherit">
             <Badge badgeContent={totalItems} color="secondary">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-        </Link>
+        </Link> */}
         {/* Mobile Menu Icon */}
         <div className="menu-icon" onClick={toggleMenu}>
           {showMenu ? <i className="fas fa-times"></i> : <i className="fas fa-bars"></i>}

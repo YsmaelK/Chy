@@ -4,32 +4,23 @@ import '../App.css';
 import { Button } from './Button';
 import './HeroSection.css';
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import { Link } from 'react-router-dom';  // Import Link from react-router-dom
-
+import { Link } from 'react-router-dom';
 
 function HeroSection({ user }) {
+  const handleAboutUsClick = () => {
+    window.open('https://www.instagram.com/ysmael.kouam/', '_blank');
+  };
   return (
     <div className='hero-container'>
       <h1>CHY </h1>
       <p>It's Party Time!</p>
       <div className="hero-btns">
-        <Button
-          className='btns'
-          buttonStyle='btn--outline'
-          buttonSize='btn--large'
-          // Add an onClick handler to navigate to the profile page
-          onClick={() => user ? window.location.href = "/profile" : window.location.href = "/profile"}
-        >
+        <a href={user ? "/profile" : "/profile"} className='btns btn--outline btn--large' style={{ textDecoration: 'none'}}>
           {user ? user.username : 'Profile'}
-        </Button>
-        <Button
-          to="/about"
-          className='btns'
-          buttonStyle='btn--primary'
-          buttonSize='btn--large'
-        >
+        </a>
+        <a href="" className='btns btn--primary btn--large' onClick={handleAboutUsClick} style={{ textDecoration: 'none'}}>
           About Us <i className="fa-solid fa-circle-info"></i>
-        </Button>
+        </a>
       </div>
     </div>
   );

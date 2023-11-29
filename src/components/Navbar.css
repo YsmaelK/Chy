@@ -16,7 +16,7 @@ body {
   background-color: #d94afd;
   color: #fff;
   padding: 10px 0;
-  height: 60px;
+  height: 70px;
 }
 
 .navbar-container {
@@ -120,6 +120,8 @@ body {
   transform: scaleY(0);
   transform-origin: top;
   transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 1000; /* Adjust the z-index to ensure it appears above other elements */
+
 }
 
 .nav-menu-mobile.active {

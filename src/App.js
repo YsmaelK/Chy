@@ -5,6 +5,7 @@ import Home from './components/pages/Home.js';
 import Buy from './components/pages/Buy.jsx';
 import Profile from './components/pages/Profile';
 import SignIn from './components/pages/SignIn';
+import FilterResults from './components/pages/FilterResults.js';
 
 import Sell from './components/pages/Sell.js';
 import AddressForm from './components/CheckoutForm/AddressForm';
@@ -158,6 +159,8 @@ export function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/search" element={<Search onSearch={handleSearch} />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/filter-results/:filter" element={<FilterResults />} />
+        
 
 
 

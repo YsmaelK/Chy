@@ -30,7 +30,7 @@ const ProductDetails = ({ products, onAddToCart }) => {
     <div className="product-details-container">
       <h2>{product.name}</h2>
       <img className="product-image" src={product.photoUrl} alt={product.name} />
-      <p>
+      <p className="date-container">
         <EventIcon /> {product.date} at {product.time}
       </p>
       {/* Calendar icon next to date and time */}
@@ -39,16 +39,19 @@ const ProductDetails = ({ products, onAddToCart }) => {
       </p>
       {/* Location symbol next to product.loc */}
       {product.info && (
-        <p className="info-container">Additional Info: {product.info}</p>
+          <>
+          <p className="info-container-title"><strong>About this event:</strong></p> 
+          <p className="info-container">{product.info}</p>
+        </>
       )}
       {product.social && (
         <p className="social-media-container">
           <LinkIcon /> Contact Me: <a href={product.social} target="_blank" rel="noopener noreferrer">{product.social}</a>
         </p>
       )}
-      <button aria-label="add to cart" onClick={() => onAddToCart(product.id, 1)}>
+      {/* <button aria-label="add to cart" onClick={() => onAddToCart(product.id, 1)}>
         <AddShoppingCartIcon /> Add to Cart - ${product.price}
-      </button>
+      </button> */}
       {/* Add more details as needed */}
     </div>
   );

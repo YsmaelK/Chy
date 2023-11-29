@@ -11,6 +11,8 @@ import CelebrationIcon from '@mui/icons-material/Celebration';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import LinkIcon from '@mui/icons-material/Link';
 import { Auth } from 'aws-amplify';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+
 const Sell = () => {
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
@@ -24,6 +26,15 @@ const Sell = () => {
   const [isFree, setIsFree] = useState(false);
   const [socialMediaLink, setSocialMediaLink] = useState('');
   // ... existing state declarations
+  const handleTextareaKeyDown = (e) => {
+    // Check if the Enter key is pressed (key code 13)
+    if (e.key === 'Enter') {
+      // Prevent the default behavior of the Enter key (newline)
+      e.preventDefault();
+      // Insert a newline character into the textarea value
+      setInfo((prevInfo) => prevInfo + '\n');
+    }
+  };
 
   const handleFreeButtonClick = () => {
     setIsFree(!isFree);
@@ -77,7 +88,7 @@ const Sell = () => {
 
   const handleNameChange = (e) => {
     const input = e.target.value;
-    if (input.length <= 11) {
+    if (input.length <= 13) {
       setProductName(input);
     }
   };
@@ -205,16 +216,17 @@ const Sell = () => {
             />
           </div>
           <div className="description-textarea">
-          <span className="description-icon">
+              <span className="description-icon">
                 <DescriptionIcon />
               </span>
-          <textarea
-            className="sell-textarea"
-            placeholder="Description"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
-          ></textarea>
-          </div>
+              <textarea
+                className="sell-textarea"
+                placeholder="Description"
+                value={info}
+                onChange={(e) => setInfo(e.target.value)}
+                onKeyDown={handleTextareaKeyDown} // Add the onKeyDown event handler
+              ></textarea>
+            </div>
           <div className="photo-input">
               <span className="camera-icon">
                 <CameraAltIcon />
@@ -249,4 +261,4 @@ const Sell = () => {
   );
 };
 
-export default Sell;
+export default withAuthenticator(Sell);
