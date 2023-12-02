@@ -16,7 +16,9 @@ const Navbar = ({ user, onSearch }) => {
   const navigate = useNavigate();
   const [totalItems, setTotalItems] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
-
+  const handleLinkClick = () => {
+    setShowMenu(false);
+  };
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -53,7 +55,7 @@ const Navbar = ({ user, onSearch }) => {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          CHY
+          SickTixs    
         </Link>
         <div className={`nav-items ${showMenu ? 'active' : ''}`}>
           <Link to="/buy" className="nav-item">
@@ -100,23 +102,24 @@ const Navbar = ({ user, onSearch }) => {
         <div className="menu-icon" onClick={toggleMenu}>
           {showMenu ? <i className="fas fa-times"></i> : <i className="fas fa-bars"></i>}
         </div>
+
       </div>
       {/* Mobile Menu */}
       <div className={`nav-menu-mobile ${showMenu ? 'active' : ''}`}>
-        <Link to="/buy" className="nav-link-mobile">
+        <Link to="/buy" className="nav-link-mobile" onClick={handleLinkClick}>
           Buy
         </Link>
         {loggedIn && (
-          <Link to="/sell" className="nav-link-mobile">
+          <Link to="/sell" className="nav-link-mobile" onClick={handleLinkClick}>
             Sell
           </Link>
         )}
         {loggedIn ? (
-          <a onClick={signOut} className="nav-link-mobile">
+          <a onClick={signOut} className="nav-link-mobile" onClick={handleLinkClick}>
             Sign Out
           </a>
         ) : (
-          <Link to="/signin" className="nav-link-mobile">
+          <Link to="/signin" className="nav-link-mobile" onClick={handleLinkClick}>
             Sign in
           </Link>
         )}

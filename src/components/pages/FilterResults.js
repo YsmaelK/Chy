@@ -37,7 +37,7 @@ const FilterResults = () => {
 
   return (
     <div>
-      <h2>Filtered Results for {filter}</h2>
+      <h2>Results for "{filter}"</h2>
       {filteredProducts.map((product) => (
        <Link to={`/product/${product.name}`} style={{ textDecoration: 'none' }}>
        <Card style={{ width: '300px', marginBottom: '1rem' }}>

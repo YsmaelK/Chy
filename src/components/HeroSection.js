@@ -12,13 +12,13 @@ function HeroSection({ user }) {
   };
   return (
     <div className='hero-container'>
-      <h1>CHY </h1>
+      <h1>SickTixs </h1>
       <p>It's Party Time!</p>
       <div className="hero-btns">
         <a href={user ? "/profile" : "/profile"} className='btns btn--outline btn--large' style={{ textDecoration: 'none'}}>
           {user ? user.username : 'Profile'}
         </a>
-        <a href="" className='btns btn--primary btn--large' onClick={handleAboutUsClick} style={{ textDecoration: 'none'}}>
+        <a href="" className='btns btn--outline btn--large' onClick={handleAboutUsClick} style={{ textDecoration: 'none'}}>
           About Us <i className="fa-solid fa-circle-info"></i>
         </a>
       </div>

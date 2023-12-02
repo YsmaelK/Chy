@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { Typography } from '@mui/material';
+import './Profile.css'; // Import a separate CSS file for styling
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -11,7 +12,6 @@ const Profile = () => {
         const userData = await Auth.currentAuthenticatedUser();
         setUser(userData);
       } catch (error) {
-        // If there's an error, leave the user state as null
         console.error('Error getting user data', error);
       }
     };
@@ -20,10 +20,10 @@ const Profile = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Profile Page</h2>
+    <div className="profile-container">
+      <h2>Your Profile </h2>
       {user ? (
-        <div>
+        <div className="profile-info">
           <Typography variant="body1">Username: {user.username}</Typography>
           <Typography variant="body1">Email: {user.attributes.email}</Typography>
         </div>
@@ -35,4 +35,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

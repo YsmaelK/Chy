@@ -30,13 +30,13 @@ body {
 
 .navbar-logo {
   color: #fff;
-  margin-left: 50px;
+  margin-left: 70px;
   cursor: pointer;
   text-decoration: none;
   font-size: 2rem;
   font-family: 'Frutiger', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Frutiger font with fallbacks */
   margin-bottom: 10px; /* Adjust the margin to move the logo up */
-
+  padding: 10px;
   
 }
 
@@ -102,10 +102,22 @@ body {
 /* Mobile Menu Icon */
 .menu-icon {
   display: none;
-  font-size: 1.8rem;
   cursor: pointer;
+  padding: 10px; /* Add padding to the menu icon for better touch interaction */
 }
 
+.menu-icon i {
+  margin-right: 10px; /* Adjust the right margin to move the bars to the right */
+}
+
+/* Add responsive styles for smaller screens */
+@media (max-width: 768px) {
+  /* ... Previous media query styles ... */
+
+  .menu-icon i {
+    margin-right: 5px; /* Adjust the right margin for mobile mode */
+  }
+}
 /* Mobile Menu */
 .nav-menu-mobile {
   display: none;
