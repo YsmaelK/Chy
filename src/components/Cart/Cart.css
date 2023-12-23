@@ -1,0 +1,17 @@
+.cart {
+    text-align: center; /* Center-align the text inside the container */
+  }
+  
+  .cart-items-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Allow items to wrap to the next line if they exceed the container width */
+  }
+  
+  .cart-item {
+    margin: 10px; /* Add margin around each card for spacing */
+  }
+  
+  .paypal-payment-container {
+    margin-top: 20px; /* Add top margin to separate cart items and PayPalPayment */
+  }

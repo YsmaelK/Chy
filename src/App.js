@@ -11,6 +11,8 @@ import Sell from './components/pages/Sell.js';
 import AddressForm from './components/CheckoutForm/AddressForm';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Cart from './components/Cart/Cart';
+import PaymentSuccessPage from './components/Cart/PaymentSuccessPage';
+import PayPalPayment from './components/Cart/PayPalPayment';
 import Checkout from './components/CheckoutForm/Checkout/Checkout';
 import { Amplify, Auth } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
@@ -153,14 +155,14 @@ export function App() {
         <Route path="/buy" element={<Buy products={products} onAddToCart={handleAddToCart} />} />
         <Route path="/sell" element={<Sell />} />
         <Route path="/cart" element={<Cart cart={cart} onCheckout={handleCheckout} firestoreCartItems={firestoreCartItems} onRemoveFCart={handleFirestoreItemRemoval} />} />
-        <Route path="/review" element={<AddressForm cart={cart} />} />
         <Route path="/product/:name" element={<ProductDetails products={products} onAddToCart={handleAddToCart}  />} />
         <Route path="/search-results" element={<SearchResults products={products} />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/search" element={<Search onSearch={handleSearch} />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/filter-results/:filter" element={<FilterResults />} />
-        
+        <Route path="/payment-success" element={<PaymentSuccessPage />} />
+        <Route path="/cart" element={<PayPalPayment cart={cart} onCheckout={handleCheckout} firestoreCartItems={firestoreCartItems} onRemoveFCart={handleFirestoreItemRemoval}/>} />
 
 
 
