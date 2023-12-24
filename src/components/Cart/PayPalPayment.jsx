@@ -12,7 +12,7 @@ const PayPalPayment = ({ cart }) => {
     return null; // or handle appropriately
   }
 
-  const serverUrl = "http://localhost:8888";
+  const serverUrl = "http://0.0.0.0:8888";
 
   const createOrder = async () => {
     console.log("Cart in createOrder:", cart);

@@ -3,8 +3,8 @@ import fetch from "node-fetch";
 import "dotenv/config";
 import path from "path";
 import cors from "cors"
-const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888, PAYPAL_API_BASE } = process.env;
-const base = PAYPAL_API_BASE ||"https://api-m.sandbox.paypal.com";
+const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888 } = process.env;
+const base = "https://api-m.sandbox.paypal.com";
 const app = express();
 
 // host static files
@@ -150,6 +150,6 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve("./client/checkout.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Node server listening at http://localhost:${PORT}/`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Node server listening at http://0.0.0.0:${PORT}/`);
 });
