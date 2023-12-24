@@ -3,6 +3,8 @@ import fetch from "node-fetch";
 import "dotenv/config";
 import path from "path";
 import cors from "cors"
+import https from "https"; 
+import fs from "fs";
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888 } = process.env;
 const base = "https://api-m.sandbox.paypal.com";
 const app = express();
@@ -149,7 +151,14 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("./client/checkout.html"));
 });
+const server = https.createServer(
+  {
+    key: fs.readFileSync("./private-key.pem"),
+    cert: fs.readFileSync("./certificate.pem"),
+  },
+  app
+);
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Node server listening at http://0.0.0.0:${PORT}/`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Node server listening at https://0.0.0.0:${PORT}/`);
 });
