@@ -12,7 +12,7 @@ const PayPalPayment = ({ cart }) => {
     return null; // or handle appropriately
   }
 
-  const serverUrl = "/api/orders";
+  const serverUrl = "http://192.168.4.69:8888";
 
   const createOrder = async () => {
     console.log("Cart in createOrder:", cart);
@@ -22,7 +22,7 @@ const PayPalPayment = ({ cart }) => {
       const user = await Auth.currentAuthenticatedUser();
       const userEmail = user.attributes.email;
 
-      return fetch(serverUrl, {
+      return fetch(`${serverUrl}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
