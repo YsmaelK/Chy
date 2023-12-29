@@ -48,14 +48,14 @@ const PayPalPayment = ({ cart }) => {
     try {
       console.log("Data sent to createOrder:", data);
       const orderId = await createOrder();
-
+  
       return actions.order.capture().then((details) => {
         console.log("Payment successful for order ID:", orderId);
         navigate('/payment-success');
       });
     } catch (error) {
       console.error("Error capturing order:", error);
-      throw error;
+      // Handle the error appropriately, e.g., display an error message to the user
     }
   };
 
