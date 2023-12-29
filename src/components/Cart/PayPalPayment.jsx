@@ -12,7 +12,7 @@ const PayPalPayment = ({ cart }) => {
     return null; // or handle appropriately
   }
 
-  const serverUrl = "https://www.sicktixs.com/";
+  const serverUrl = "http://192.168.4.69:8888";
 
   const createOrder = async () => {
     console.log("Cart in createOrder:", cart);
@@ -48,14 +48,14 @@ const PayPalPayment = ({ cart }) => {
     try {
       console.log("Data sent to createOrder:", data);
       const orderId = await createOrder();
-  
+
       return actions.order.capture().then((details) => {
         console.log("Payment successful for order ID:", orderId);
         navigate('/payment-success');
       });
     } catch (error) {
       console.error("Error capturing order:", error);
-      // Handle the error appropriately, e.g., display an error message to the user
+      throw error;
     }
   };
 
