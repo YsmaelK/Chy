@@ -12,7 +12,7 @@ const PayPalPayment = ({ cart }) => {
     return null; // or handle appropriately
   }
 
-  const serverUrl = "http://192.168.4.69:8888";
+  const serverUrl = "https://www.sicktixs.com/";
 
   const createOrder = async () => {
     console.log("Cart in createOrder:", cart);
